@@ -30,13 +30,11 @@ cp $CONFDIR/php-fpm.conf.default $CONFDIR/php-fpm.conf
 cp ./sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm
 chmod 755 /etc/init.d/php-fpm
 
-sed -inr 's/.*pm.start_servers =.*/pm.start_servers = 20/g' $CONFDIR/php-fpm.conf
-sed -inr 's/.*pm.min_spare_servers =.*/pm.min_spare_servers = 5/g' $CONFDIR/php-fpm.conf
-sed -inr 's/.*pm.max_spare_servers =.*/pm.max_spare_servers = 35/g' $CONFDIR/php-fpm.conf
-sed -inr "s#.*pid.*php-fpm.pid.*#pid = $PHPDIR/var/run/php-fpm.pid#g" $CONFDIR/php-fpm.conf
-
-mkdir /etc/php
-ln -s /data/server/php /usr/local/php
+sed -i 's/.*pm.max_children =.*/pm.max_children = 50/g' $CONFDIR/php-fpm.conf
+sed -i 's/.*pm.start_servers =.*/pm.start_servers = 20/g' $CONFDIR/php-fpm.conf
+sed -i 's/.*pm.min_spare_servers =.*/pm.min_spare_servers = 5/g' $CONFDIR/php-fpm.conf
+sed -i 's/.*pm.max_spare_servers =.*/pm.max_spare_servers = 35/g' $CONFDIR/php-fpm.conf
+sed -i "s#.*pid.*php-fpm.pid.*#pid = $PHPDIR/var/run/php-fpm.pid#g" $CONFDIR/php-fpm.conf
 
 
 ## SERVICE ENABLE AND START

@@ -19,7 +19,7 @@ ln -s /usr/lib64/libpng.so /usr/lib/libpng.so
 ## TARBALL INSTALL PHP
 tar zxvf php-5.3.3.tar.gz
 cd php-5.3.3
-./configure --prefix=$PHPDIR --with-config-file-path=$CONFDIR --enable-fpm --with-fpm-user=php-fpm --with-fpm-group=php-fpm --with-mysql=$MYSQLDIR --with-mysql-sock=$MYSQLSOCK --with-libxml-dir  --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-iconv-dir --with-zlib-dir --with-mcrypt --enable-soap --enable-gd-native-ttf --enable-ftp --enable-mbstring --enable-exif --disable-ipv6 --with-curl
+./configure --prefix=$PHPDIR --with-config-file-path=$CONFDIR --enable-fpm --with-fpm-user=php-fpm --with-fpm-group=php-fpm --with-mysql=$MYSQLDIR --with-mysql-sock=$MYSQLSOCK --with-libxml-dir  --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-iconv-dir --with-zlib-dir --with-mcrypt --enable-soap --enable-gd-native-ttf --enable-ftp --enable-mbstring --enable-exif --disable-ipv6 --with-curl --with-openssl
 make
 make install
 

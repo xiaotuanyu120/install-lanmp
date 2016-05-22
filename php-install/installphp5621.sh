@@ -8,9 +8,9 @@ MYSQLSOCK=/tmp/mysql.sock
 useradd -r -s /sbin/nologin php-fpm
 
 ## BASE PACKAGE INSTALLATION
-yum install gcc gcc-c++ cmake ncurses-devel -y
+yum install gcc gcc-c++ cmake ncurses-devel epel-release -y
 yum groupinstall base "Development Tools" -y
-yum install libxml2-devel libcurl-devel libjpeg-turbo-devel libpng-devel freetype-devel libmcrypt-devel epel-release libevent-devel -y
+yum install libxml2-devel libcurl-devel libjpeg-turbo-devel libpng-devel freetype-devel php-mcrypt libmcrypt-devel libevent-devel -y
 
 ## LIB PREPARE
 ln -s /usr/lib64/libjpeg.so /usr/lib/libjpeg.so 

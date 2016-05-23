@@ -40,7 +40,3 @@ sed -i "s#.*pid.*php-fpm.pid.*#pid = $PHPDIR/var/run/php-fpm.pid#g" $CONFDIR/php
 ## SERVICE ENABLE AND START
 chkconfig --add php-fpm
 chkconfig php-fpm on
-
-
-echo "export PATH=$PATH:$PHPDIR/bin" >> /etc/profile
-. /etc/profile

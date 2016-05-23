@@ -48,6 +48,3 @@ sed -i "/\[mysqld\]/apid_file=$PIDFILE" /etc/my.cnf
 chkconfig mysqld on
 /etc/init.d/mysqld start
 $BASEDIR/bin/mysqladmin -u root password "$PASSWORD"
-
-echo "export PATH=$PATH:$BASEDIR/bin" >> /etc/profile
-. /etc/profile

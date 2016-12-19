@@ -1,3 +1,5 @@
+set -e
+
 ## VARIABLE SETTING
 PHPDIR=/usr/local/php
 CONFDIR=$PHPDIR/etc
@@ -13,7 +15,7 @@ yum groupinstall base "Development Tools" -y
 yum install libxml2-devel libcurl-devel libjpeg-turbo-devel libpng-devel freetype-devel php-mcrypt libmcrypt-devel libevent-devel -y
 
 ## LIB PREPARE
-ln -s /usr/lib64/libjpeg.so /usr/lib/libjpeg.so 
+ln -s /usr/lib64/libjpeg.so /usr/lib/libjpeg.so
 ln -s /usr/lib64/libpng.so /usr/lib/libpng.so
 
 ## TARBALL INSTALL PHP

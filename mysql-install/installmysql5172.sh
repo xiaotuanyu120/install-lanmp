@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ## env setting
 BASEDIR=/usr/local/mysql

@@ -1,4 +1,5 @@
-echo '****************nginx install****************'
+set -e
+
 yum install gcc gcc-c++ cmake ncurses-devel -y
 yum groupinstall base "Development Tools" -y
 
@@ -31,4 +32,3 @@ ln -s /data/web/log /web/log
 
 cd /usr/local
 mv ./nginx-1.8.0* /tmp
-echo "****************INSTALL FINISH*****************"

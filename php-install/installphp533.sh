@@ -3,8 +3,6 @@ set -e
 ## VARIABLE SETTING
 PHPDIR=/usr/local/php
 CONFDIR=$PHPDIR/etc
-MYSQLDIR=/usr/local/mysql
-MYSQLSOCK=/tmp/mysql.sock
 
 ## USER CREATE
 useradd -r -s /sbin/nologin php-fpm
@@ -12,7 +10,7 @@ useradd -r -s /sbin/nologin php-fpm
 ## BASE PACKAGE INSTALLATION
 yum install gcc gcc-c++ cmake ncurses-devel epel-release -y
 yum groupinstall base "Development Tools" -y
-yum install libxml2-devel libcurl-devel libjpeg-turbo-devel libpng-devel freetype-devel php-mcrypt libmcrypt-devel libevent-devel -y
+yum install libxml2-devel libcurl-devel libjpeg-turbo-devel libpng-devel freetype-devel php-mcrypt libmcrypt-devel libevent-devel openssl-devel -y
 
 ## LIB PREPARE
 ln -s /usr/lib64/libjpeg.so /usr/lib/libjpeg.so
@@ -21,7 +19,7 @@ ln -s /usr/lib64/libpng.so /usr/lib/libpng.so
 ## TARBALL INSTALL PHP
 tar zxvf php-5.3.3.tar.gz
 cd php-5.3.3
-./configure --prefix=$PHPDIR --with-config-file-path=$CONFDIR --enable-fpm --with-fpm-user=php-fpm --with-fpm-group=php-fpm --with-mysql=$MYSQLDIR --with-mysql-sock=$MYSQLSOCK --with-libxml-dir  --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-iconv-dir --with-zlib-dir --with-mcrypt --enable-soap --enable-gd-native-ttf --enable-ftp --enable-mbstring --enable-exif --disable-ipv6 --with-curl --with-openssl
+./configure --prefix=$PHPDIR --with-config-file-path=$CONFDIR --enable-fpm --with-fpm-user=php-fpm --with-fpm-group=php-fpm --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-mysql=mysqlnd --with-libxml-dir  --with-gd --with-jpeg-dir --with-png-dir --with-freetype-dir --with-iconv-dir --with-zlib-dir --with-mcrypt --enable-soap --enable-gd-native-ttf --enable-ftp --enable-mbstring --enable-exif --disable-ipv6 --with-curl --with-openssl
 make
 make install
 

@@ -20,7 +20,7 @@ yum install libxml2-devel libcurl-devel libjpeg-turbo-devel libpng-devel freetyp
 
 ## TARBALL INSTALL PHP
 [[ -d php-5.6.40 ]] && mv php-5.6.40 bak.php-5.6.40.`date +%Y%m%d-%H%M%S`
-wget https://www.php.net/distributions/php-5.6.40.tar.gz
+[[ -f php-5.6.40.tar.gz ]] || wget https://www.php.net/distributions/php-5.6.40.tar.gz
 tar zxvf php-5.6.40.tar.gz
 cd php-5.6.40
 ./configure --prefix=$PHPDIR --with-config-file-path=$CONFDIR \
@@ -41,36 +41,35 @@ make install
 [[ -d $CONFDIR ]] || mkdir $CONFDIR && echo "$CONFDIR already exist"
 cp php.ini-production $CONFDIR/php.ini
 cp $CONFDIR/php-fpm.conf.default $CONFDIR/php-fpm.conf
-cp ../php-fpm.5.6.40.service /usr/lib/systemd/system/php-fpm.service
+cp ../php-fpm.service /usr/lib/systemd/system/
 chmod 644 /usr/lib/systemd/system/php-fpm.service
 
 ## PHP-FPM COINFGURATION
 ### config: global
 sed -inr 's#.*pid.*php-fpm.pid.*#pid = run/php-fpm.pid#g' $CONFDIR/php-fpm.conf
 sed -inr 's#.*;error_log = .*#error_log = log/php-fpm.error.log#g' $CONFDIR/php-fpm.conf
-sed -inr 's#.*;emergency_restart_threshold = 0.*#emergency_restart_threshold = 30g' $CONFDIR/php-fpm.conf
+sed -inr 's#.*;emergency_restart_threshold = 0.*#emergency_restart_threshold = 30#g' $CONFDIR/php-fpm.conf
 sed -inr 's#.*;emergency_restart_interval = 0.*#emergency_restart_interval = 60s#g' $CONFDIR/php-fpm.conf
 sed -inr 's#.*;daemonize =.*#daemonize = yes#g' $CONFDIR/php-fpm.conf
 ### config: pool
 sed -inr 's#.*listen =.*#listen = /tmp/php-cgi.sock#g' $CONFDIR/php-fpm.conf
-sed -inr 's#.*;listen.owner =.*#listen.owner = ${PHPFPM_USER}#g' $CONFDIR/php-fpm.conf
-sed -inr 's#.*;listen.group =.*#listen.group = ${PHPFPM_USER}#g' $CONFDIR/php-fpm.conf
+sed -inr "s#.*;listen.owner =.*#listen.owner = ${PHPFPM_USER}#g" $CONFDIR/php-fpm.conf
+sed -inr "s#.*;listen.group =.*#listen.group = ${PHPFPM_USER}#g" $CONFDIR/php-fpm.conf
 sed -inr 's#.*;listen.mode =.*#listen.mode = 0660#g' $CONFDIR/php-fpm.conf
-sed -inr 's#.*user =.*#user = ${PHPFPM_USER}#g' $CONFDIR/php-fpm.conf
-sed -inr 's#.*group =.*#group = ${PHPFPM_USER}#g' $CONFDIR/php-fpm.conf
-sed -inr "s/.*pm =.*/pm = ${PHPFPM_MODE}/g" $CONFDIR/php-fpm.conf
-sed -inr 's/.*pm.max_children =.*/pm.max_children = 80/g' $CONFDIR/php-fpm.conf
-sed -inr 's/.*pm.start_servers =.*/pm.start_servers = 60/g' $CONFDIR/php-fpm.conf
-sed -inr 's/.*pm.min_spare_servers =.*/pm.min_spare_servers = 50/g' $CONFDIR/php-fpm.conf
-sed -inr 's/.*pm.max_spare_servers =.*/pm.max_spare_servers = 80/g' $CONFDIR/php-fpm.conf
+sed -inr "s#.*user =.*#user = ${PHPFPM_USER}#g" $CONFDIR/php-fpm.conf
+sed -inr "s#.*group =.*#group = ${PHPFPM_USER}#g" $CONFDIR/php-fpm.conf
+sed -inr "s#.*pm =.*#pm = ${PHPFPM_MODE}#g" $CONFDIR/php-fpm.conf
+sed -inr 's#.*pm.max_children =.*#pm.max_children = 80#g' $CONFDIR/php-fpm.conf
+sed -inr 's#.*pm.start_servers =.*#pm.start_servers = 60#g' $CONFDIR/php-fpm.conf
+sed -inr 's#.*pm.min_spare_servers =.*#pm.min_spare_servers = 50#g' $CONFDIR/php-fpm.conf
+sed -inr 's#.*pm.max_spare_servers =.*#pm.max_spare_servers = 80#g' $CONFDIR/php-fpm.conf
 sed -inr 's#.*;pm.process_idle_timeout =.*#pm.process_idle_timeout = 10s;#g' $CONFDIR/php-fpm.conf
 sed -inr 's#.*;pm.max_requests =.*#pm.max_requests = 500#g' $CONFDIR/php-fpm.conf
 sed -inr 's#.*;catch_workers_output =.*#catch_workers_output = yes#g' $CONFDIR/php-fpm.conf
-sed -inr 's#.*;access.log =.*#access.log = log/$pool.access.log#g' $CONFDIR/php-fpm.conf
-sed -inr 's#.*;slowlog =.*#slowlog = log/$pool.log.slow#g' $CONFDIR/php-fpm.conf
+sed -inr 's#.*;access.log =.*#access.log = var/log/$pool.access.log#g' $CONFDIR/php-fpm.conf
+sed -inr 's#.*;slowlog =.*#slowlog = var/log/$pool.log.slow#g' $CONFDIR/php-fpm.conf
 sed -inr 's#.*;request_slowlog_timeout =.*#request_slowlog_timeout = 1s#g' $CONFDIR/php-fpm.conf
 ## PHP CONFIGURATION
-sed -inr 's#.*.*##g' $CONFDIR/php.ini
 sed -inr 's#.*disable_functions =.*#disable_functions = passthru,exec,system,chroot,chgrp,chown,shell_exec,proc_open,proc_get_status,ini_alter,ini_restore,dl,openlog,syslog,readlink,symlink,popepassthru,stream_socket_server,fsocket,popen#g' $CONFDIR/php.ini
 sed -inr 's#.*expose_php =.*#expose_php = Off#g' $CONFDIR/php.ini
 sed -inr 's#.*;date.timezone =.*#date.timezone = Asia/Shanghai#g' $CONFDIR/php.ini

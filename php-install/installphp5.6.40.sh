@@ -41,7 +41,7 @@ make install
 [[ -d $CONFDIR ]] || mkdir $CONFDIR && echo "$CONFDIR already exist"
 cp php.ini-production $CONFDIR/php.ini
 cp $CONFDIR/php-fpm.conf.default $CONFDIR/php-fpm.conf
-cp ../php-fpm.service /usr/lib/systemd/system/
+cp ../php-fpm.5.6.40.service /usr/lib/systemd/system/php-fpm.service
 chmod 644 /usr/lib/systemd/system/php-fpm.service
 
 ## PHP-FPM COINFGURATION

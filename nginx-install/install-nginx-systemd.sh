@@ -45,7 +45,6 @@ make
 make install
 ln -s ${NGX_DIR}/sbin/nginx /usr/sbin/nginx
 chown -R ${NGX_USER}.${NGX_USER} ${NGX_DIR}
-setcap 'cap_net_bind_service=+ep' ${NGX_DIR}/sbin/nginx
 
 # PREPARE SERVICE FILES
 cat << EOF > /usr/lib/systemd/system/nginx.service

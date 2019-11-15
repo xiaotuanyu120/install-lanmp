@@ -63,6 +63,8 @@ ExecStart=${NGX_DIR}/sbin/nginx
 ExecReload=${NGX_DIR}/sbin/nginx -s reload
 ExecStop=/bin/kill -s QUIT \$MAINPID
 PrivateTmp=true
+LimitNOFILE=65535
+AmbientCapabilities=CAP_NET_BIND_SERVICE
 
 [Install]
 WantedBy=multi-user.target
